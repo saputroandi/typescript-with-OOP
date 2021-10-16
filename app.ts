@@ -5,6 +5,9 @@ import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
 
+// Routes
+import UserRoutes from './src/routes/UserRoutes';
+
 class App {
   public app: Application;
 
@@ -28,11 +31,7 @@ class App {
       .get((req: Request, res: Response, next: NextFunction) => {
         res.send('route dengan TS');
       });
-    this.app
-      .route('/user')
-      .post((req: Request, res: Response, next: NextFunction) => {
-        res.send(req.body);
-      });
+    this.app.use('/api', UserRoutes);
   }
 }
 
