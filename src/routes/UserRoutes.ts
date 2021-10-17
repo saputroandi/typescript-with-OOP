@@ -1,6 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import RouteInterface from './RouteInterface';
 
+// Controller
+import UserController from '../controller/UserController';
+
 class UserRoutes implements RouteInterface {
   public router: Router;
 
@@ -9,12 +12,8 @@ class UserRoutes implements RouteInterface {
     this.routes();
   }
   public routes() {
-    this.router.get(
-      '/user',
-      (req: Request, res: Response, next: NextFunction) => {
-        res.send('hello from user route');
-      }
-    );
+    this.router.get('/v1/user', UserController.index);
+    this.router.post('/v1/user', UserController.store);
   }
 }
 
