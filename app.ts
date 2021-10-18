@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 // Routes
+import AuthRoutes from './src/routes/AuthRoutes';
 import UserRoutes from './src/routes/UserRoutes';
 
 class App {
@@ -31,6 +32,7 @@ class App {
       .get((req: Request, res: Response, next: NextFunction) => {
         res.send('route dengan TS');
       });
+    this.app.use('/auth', AuthRoutes);
     this.app.use('/api', UserRoutes);
   }
 }
