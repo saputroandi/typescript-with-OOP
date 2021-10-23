@@ -1,14 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import IMiddleware from './MiddlewareInterface';
+import { body, validationResult } from 'express-validator';
 
-class AuthMiddleware implements IMiddleware {
-  handle(req: Request, res: Response, next: NextFunction): void | Response {
-    const { name } = req.body;
+const validate = [
+  body('username').isEmail(),
+  body('password').isLength({ min: 6 }),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
 
-    if (name == 'andi') return next();
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-    return res.send('unauthorize');
-  }
-}
+    next();
+  },
+];
 
-export default new AuthMiddleware().handle;
+export default validate;
