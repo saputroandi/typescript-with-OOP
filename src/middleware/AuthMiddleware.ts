@@ -1,18 +1,25 @@
 import { Request, Response, NextFunction } from 'express';
-import { body, validationResult } from 'express-validator';
+import EmailValidation from '../utils/EmailValidation';
+import IMiddleware from './MiddlewareInterface';
 
-const validate = [
-  body('username').isEmail(),
-  body('password').isLength({ min: 6 }),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
+class AuthMiddleware implements IMiddleware {
+  handle(req: Request, res: Response, next: NextFunction): void | Response {
+    if (req.body && req.body.email && req.body.password) {
+      if (EmailValidation(req.body.email) && req.body.password.length >= 6) {
+        next();
+      }
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({
+        error: 1,
+        messages: 'invalid email or password',
+      });
     }
 
-    next();
-  },
-];
+    return res.status(400).json({
+      error: 1,
+      messages: 'email or password cannot be empty',
+    });
+  }
+}
 
-export default validate;
+export default new AuthMiddleware().handle;

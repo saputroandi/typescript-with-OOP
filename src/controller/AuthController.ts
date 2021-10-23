@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction, request } from 'express';
+import { ValidationError } from 'sequelize';
 const db = require('../db/models');
 
 class AuthController {
@@ -17,6 +18,12 @@ class AuthController {
 
       return res.json(result);
     } catch (e) {
+      if (e instanceof ValidationError) {
+        return res.status(400).json({
+          error: 1,
+          messages: e.errors,
+        });
+      }
       next(e);
     }
   }
