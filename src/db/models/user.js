@@ -1,5 +1,6 @@
 'use strict';
 const bcrypt = require('bcrypt');
+const { ValidationError } = require('sequelize');
 const HASH_ROUND = 10;
 
 module.exports = (sequelize, DataTypes) => {
@@ -10,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           isEmail: true,
+          async isUnique(email) {
+            const userMail = await User.findOne({ where: { email } });
+            if (userMail) {
+              throw new ValidationError('email has been taken');
+            }
+          },
         },
       },
       password: {
