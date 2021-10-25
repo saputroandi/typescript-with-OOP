@@ -19,7 +19,7 @@ class AuthRoutes extends BaseRoutes {
     );
   }
   public routes(): void {
-    this.router.post('/v1/login', AuthMiddleware, AuthController.login);
+    this.router.post('/v1/login', AuthMiddleware.handle, AuthController.login);
     this.router.post('/v1/register', AuthController.register);
   }
 }

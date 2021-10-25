@@ -1,22 +1,25 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+    return queryInterface.createTable('todos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      email: {
-        type: Sequelize.STRING,
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'users',
+          },
+          key: 'id',
+        },
       },
-      role: {
-        type: Sequelize.ENUM(['user', 'admin']),
-        defaultValue: 'user',
-      },
-      password: {
-        type: Sequelize.STRING,
+      description: {
+        type: Sequelize.TEXT,
       },
       created_at: {
         allowNull: false,
@@ -29,6 +32,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('todos');
   },
 };

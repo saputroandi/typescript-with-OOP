@@ -29,11 +29,7 @@ class AuthController {
     }
   }
 
-  login(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): void | Response | any {
+  login(req: Request, res: Response, next: NextFunction): void | Response {
     passport.authenticate('local', async function (err, user) {
       if (err) return next(err);
       if (!user)
@@ -56,7 +52,7 @@ class AuthController {
     email: string,
     password: string,
     done: Function
-  ): Promise<any> {
+  ): Promise<void> {
     try {
       const userData = await db.User.findOne({ where: { email: email } });
       if (!userData) return done();

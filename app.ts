@@ -7,7 +7,8 @@ import cors from 'cors';
 
 // Routes
 import AuthRoutes from './src/routes/AuthRoutes';
-import UserRoutes from './src/routes/UserRoutes';
+import TodoRoutes from './src/routes/TodoRoutes';
+import AuthMiddleware from './src/middleware/AuthMiddleware';
 
 class App {
   public app: Application;
@@ -24,6 +25,7 @@ class App {
     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cors());
+    this.app.use(AuthMiddleware.decodeToken);
   }
 
   protected routes(): void {
@@ -33,7 +35,7 @@ class App {
         res.send('route dengan TS');
       });
     this.app.use('/auth', AuthRoutes);
-    this.app.use('/api', UserRoutes);
+    this.app.use('/api', TodoRoutes);
   }
 }
 
