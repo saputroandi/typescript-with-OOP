@@ -19,11 +19,11 @@ class AuthMiddleware implements IMiddleware {
     next();
   }
 
-  async decodeToken(
+  decodeToken(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void | Response> {
+  ): void | Response {
     try {
       let token = GetToken.handle(req);
 

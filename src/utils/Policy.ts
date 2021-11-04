@@ -1,18 +1,37 @@
 import { Ability, AbilityBuilder } from '@casl/ability';
 
+interface User {
+  id: number;
+  email: string;
+  role: string;
+  password: string;
+  createdAt?: string;
+  updatedAt?: string;
+  iat?: number;
+}
+
 class Policy {
-  public static handle(user: any) {
+  public static handle(user: User) {
     const { rules, can } = new AbilityBuilder(Ability);
 
     const policies: any = {
-      guest(user: any, can: any) {
+      guest(
+        user: { role: string; id?: string },
+        can: (ability: string, subject: string, field?: {}) => void
+      ): void {
         can('create', 'Account');
       },
-      user(user: any, can: any) {
+      user(
+        user: { role: string; id?: string },
+        can: (ability: string, subject: string, field?: {}) => void
+      ): void {
         can('create', 'Todos');
         can('read', 'Todos', { user_id: user.id });
       },
-      admin(user: any, can: any) {
+      admin(
+        user: { role: string; id?: string },
+        can: (ability: string, subject: string, field?: {}) => void
+      ): void {
         can('manage', 'all');
       },
     };

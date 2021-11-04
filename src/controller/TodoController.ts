@@ -10,6 +10,7 @@ class TodoController implements IController {
   ): Response | Promise<Response> {
     return res.send('hello from controller');
   }
+
   store(
     req: Request,
     res: Response,
@@ -26,6 +27,7 @@ class TodoController implements IController {
 
     return res.send('hit todos');
   }
+
   update(
     req: Request,
     res: Response,
@@ -33,6 +35,7 @@ class TodoController implements IController {
   ): Response | Promise<Response> {
     return res.send('hello from controller');
   }
+
   delete(
     req: Request,
     res: Response,
